@@ -48,7 +48,51 @@ async function makePayment(req, res) {
                 .status(StatusCodes.OK)
                 .json(SuccessResponse);
     } catch(error) {
-        console.log(error);
+        ErrorResponse.error = error;
+        return res
+                .status(StatusCodes.INTERNAL_SERVER_ERROR)
+                .json(ErrorResponse);
+    }
+}
+
+async function getAllBookings(req, res) {
+    try {
+        const response = await BookingService.getAllBookings();
+        SuccessResponse.data = response;
+        return res
+                .status(StatusCodes.OK)
+                .json(SuccessResponse);
+    } catch(error) {
+        ErrorResponse.error = error;
+        return res
+                .status(StatusCodes.INTERNAL_SERVER_ERROR)
+                .json(ErrorResponse);
+    }
+}
+
+async function getBookingById(req, res) {
+    try {
+        const response = await BookingService.getBookingById(req.params.id);
+        SuccessResponse.data = response;
+        return res
+                .status(StatusCodes.OK)
+                .json(SuccessResponse);
+    } catch(error) {
+        ErrorResponse.error = error;
+        return res
+                .status(StatusCodes.INTERNAL_SERVER_ERROR)
+                .json(ErrorResponse);
+    }
+}
+
+async function cancelBooking(req, res) {
+    try {
+        const response = await BookingService.cancelBookingById(req.params.id);
+        SuccessResponse.data = response;
+        return res
+                .status(StatusCodes.OK)
+                .json(SuccessResponse);
+    } catch(error) {
         ErrorResponse.error = error;
         return res
                 .status(StatusCodes.INTERNAL_SERVER_ERROR)
@@ -58,5 +102,8 @@ async function makePayment(req, res) {
 
 module.exports = {
     createBooking,
-    makePayment
+    makePayment,
+    getAllBookings,
+    getBookingById,
+    cancelBooking
 }
